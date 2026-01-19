@@ -251,12 +251,12 @@
       }
 
       #cardDisplay.correct {
-        border: 5px solid #4caf50;
+        box-shadow: 0 0 0 5px #4caf50;
         animation: correctPulse 0.5s;
       }
 
       #cardDisplay.incorrect {
-        border: 5px solid #f44336;
+        box-shadow: 0 0 0 5px #f44336;
         animation: incorrectShake 0.5s;
       }
 
@@ -551,45 +551,57 @@
           padding: 8px;
         }
 
+        /* 【修正問題2】手機橫向：左F，中卡片，右J 水平排列 */
         #mainArea {
           padding: 10px;
           flex-direction: row; /* 橫向排列 */
           justify-content: center;
           align-items: center;
+          gap: 20px; /* 元素間距 */
         }
 
         #cardDisplay {
-          width: 200px;
-          height: 250px;
-          margin-right: 20px;
+          width: 220px;
+          height: 275px;
+          margin: 0; /* 移除 margin */
+          order: 2; /* 卡片在中間 */
         }
 
         #cardForeground svg {
+          width: 110px;
+          height: 110px;
+        }
+
+        /* 分類盒子容器：改為水平排列，分別在左右 */
+        #sortingBoxes {
+          display: contents; /* 讓子元素直接參與父層 flex 佈局 */
+        }
+
+        /* 左邊盒子 (F 鍵) */
+        .sorting-box.left {
+          order: 1; /* 在最左邊 */
           width: 100px;
           height: 100px;
+          flex-direction: column; /* 圖示和文字垂直 */
         }
 
-        #sortingBoxes {
-          flex-direction: column; /* 垂直排列 */
-          gap: 15px;
-          margin-top: 0;
-        }
-
-        .sorting-box {
-          width: 120px;
-          height: 80px;
-          flex-direction: row; /* 圖示和文字橫向 */
+        /* 右邊盒子 (J 鍵) */
+        .sorting-box.right {
+          order: 3; /* 在最右邊 */
+          width: 100px;
+          height: 100px;
+          flex-direction: column; /* 圖示和文字垂直 */
         }
 
         .sorting-box svg {
-          width: 40px;
-          height: 40px;
-          margin-bottom: 0;
-          margin-right: 10px;
+          width: 45px;
+          height: 45px;
+          margin-bottom: 8px;
+          margin-right: 0;
         }
 
         .sorting-box .label {
-          font-size: 14px;
+          font-size: 13px;
         }
 
         #visualCue {
