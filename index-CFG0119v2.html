@@ -1,11 +1,9 @@
 <!doctype html>
 <html lang="zh-TW">
   <head>
-    <!-- ===== 基本設定 ===== -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ===== 網站身分識別 (符合 GSB 安全規範) ===== -->
     <meta
       name="description"
       content="DCCS認知彈性訓練模組是中原大學特殊教育學系的學術研究工具，專為聽障學生設計。採用眼睛與嘴巴作為刺激物，符合聽障學生視覺學習特性。不收集任何個人資訊，所有資料僅在瀏覽器本地處理。"
@@ -19,18 +17,14 @@
     <meta name="category" content="Education" />
     <meta name="robots" content="index, follow" />
 
-    <!-- ===== 安全性設定 (Content Security Policy) ===== -->
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-ancestors 'none'; form-action 'self'; base-uri 'self';"
     />
-
-    <!-- ===== 防止安全攻擊 ===== -->
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
 
-    <!-- ===== Open Graph (社群分享) ===== -->
     <meta property="og:title" content="DCCS認知彈性訓練模組 - 聽障學生專用" />
     <meta
       property="og:description"
@@ -42,9 +36,6 @@
       DCCS認知彈性訓練模組 - 聽障學生專用 | 中原大學特教系學術研究工具
     </title>
     <style>
-      /* =================================================================
-           全域樣式設定 (Global Styles)
-           ================================================================= */
       * {
         margin: 0;
         padding: 0;
@@ -61,13 +52,9 @@
         overflow: hidden;
       }
 
-      /* =================================================================
-           遊戲主容器 (Main Game Container)
-           【修正問題2】縮小電腦版白色背景寬度
-           ================================================================= */
       #gameContainer {
         width: 90vw;
-        max-width: 900px; /* 【修正】從 1200px 改為 900px */
+        max-width: 900px;
         height: 85vh;
         max-height: 900px;
         background: white;
@@ -79,9 +66,6 @@
         overflow-y: auto;
       }
 
-      /* =================================================================
-           標題區域 (Header Area)
-           ================================================================= */
       #header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
@@ -93,9 +77,6 @@
         flex-shrink: 0;
       }
 
-      /* =================================================================
-           主要遊戲區域 (Main Game Area)
-           ================================================================= */
       #mainArea {
         flex: 1;
         display: flex;
@@ -107,9 +88,6 @@
         overflow-y: auto;
       }
 
-      /* =================================================================
-           畫面區塊 (Screen Sections)
-           ================================================================= */
       .screen {
         display: none;
         width: 100%;
@@ -125,9 +103,6 @@
         display: flex;
       }
 
-      /* =================================================================
-           首頁畫面 (Landing Screen)
-           ================================================================= */
       #landingScreen h2 {
         font-size: 28px;
         color: #667eea;
@@ -141,9 +116,6 @@
         line-height: 1.6;
       }
 
-      /* =================================================================
-           輸入欄位樣式 (Input Field Styles)
-           ================================================================= */
       .input-group {
         margin: 20px 0;
       }
@@ -164,9 +136,6 @@
         text-align: center;
       }
 
-      /* =================================================================
-           按鈕樣式 (Button Styles)
-           ================================================================= */
       .btn {
         padding: 12px 35px;
         font-size: 16px;
@@ -195,9 +164,6 @@
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       }
 
-      /* =================================================================
-           說明畫面 (Instruction Screen)
-           ================================================================= */
       .instruction-box {
         background: #f8f9fa;
         padding: 25px;
@@ -234,9 +200,6 @@
         font-weight: bold;
       }
 
-      /* =================================================================
-           視覺提示區域 (Visual Cue Area)
-           ================================================================= */
       #visualCue {
         position: absolute;
         top: 20px;
@@ -272,12 +235,10 @@
         box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
       }
 
-      /* =================================================================
-           卡片顯示區域 (Card Display Area)
-           ================================================================= */
+      /* 【修正問題2】卡片閃白問題 - 使用 overflow: hidden 和完整填滿 */
       #cardDisplay {
-        width: 300px; /* 【修正問題3】從 400px 改為 300px */
-        height: 375px; /* 【修正問題3】從 500px 改為 375px */
+        width: 300px;
+        height: 375px;
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         display: flex;
@@ -286,6 +247,7 @@
         align-items: center;
         position: relative;
         transition: transform 0.3s;
+        overflow: hidden; /* 【關鍵修正】隱藏溢出部分，防止白色空隙 */
       }
 
       #cardDisplay.correct {
@@ -321,12 +283,21 @@
         }
       }
 
+      /* 【修正問題2】背景層完全填滿 */
       #cardBackground {
         position: absolute;
         width: 100%;
         height: 100%;
-        border-radius: 20px;
+        top: 0;
+        left: 0;
         z-index: 1;
+      }
+
+      /* 【修正問題2】背景SVG完全填滿 */
+      #cardBackground svg {
+        width: 100%;
+        height: 100%;
+        display: block; /* 移除inline元素底部空白 */
       }
 
       #cardForeground {
@@ -338,24 +309,20 @@
       }
 
       #cardForeground svg {
-        width: 150px; /* 【修正問題3】從 200px 改為 150px */
+        width: 150px;
         height: 150px;
       }
 
-      /* =================================================================
-           分類盒子區域 (Sorting Boxes Area)
-           【修正問題3】手機版響應式設計
-           ================================================================= */
       #sortingBoxes {
         display: flex;
-        gap: 50px; /* 【修正問題3】從 100px 改為 50px */
-        margin-top: 30px; /* 【修正問題3】從 50px 改為 30px */
-        flex-wrap: wrap; /* 【新增】允許換行 */
+        gap: 50px;
+        margin-top: 30px;
+        flex-wrap: wrap;
         justify-content: center;
       }
 
       .sorting-box {
-        width: 120px; /* 【修正問題3】從 150px 改為 120px */
+        width: 120px;
         height: 120px;
         border: 4px solid #333;
         border-radius: 15px;
@@ -368,7 +335,6 @@
           transform 0.2s,
           box-shadow 0.2s;
         background: white;
-        /* 【修正問題3】新增觸控優化 */
         touch-action: manipulation;
         -webkit-tap-highlight-color: transparent;
       }
@@ -378,19 +344,18 @@
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
       }
 
-      /* 【修正問題3】新增觸控回饋 */
       .sorting-box:active {
         transform: scale(0.95);
       }
 
       .sorting-box svg {
-        width: 60px; /* 【修正問題3】從 80px 改為 60px */
+        width: 60px;
         height: 60px;
         margin-bottom: 10px;
       }
 
       .sorting-box .label {
-        font-size: 14px; /* 【修正問題3】從 16px 改為 14px */
+        font-size: 14px;
         font-weight: bold;
         color: #333;
       }
@@ -405,9 +370,6 @@
         box-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
       }
 
-      /* =================================================================
-           回饋訊息區域 (Feedback Message Area)
-           ================================================================= */
       #feedbackMessage {
         position: absolute;
         bottom: 50px;
@@ -429,9 +391,6 @@
         color: #f44336;
       }
 
-      /* =================================================================
-           進度條 (Progress Bar)
-           ================================================================= */
       #progressBar {
         position: absolute;
         bottom: 0;
@@ -448,9 +407,6 @@
         transition: width 0.5s;
       }
 
-      /* =================================================================
-           統計資料區域 (Statistics Area)
-           ================================================================= */
       .stats-container {
         background: #f8f9fa;
         padding: 30px;
@@ -478,10 +434,7 @@
         color: #333;
       }
 
-      /* =================================================================
-           響應式設計 (Responsive Design)
-           【修正問題3】完整的手機版支援
-           ================================================================= */
+      /* 平板和手機直向 */
       @media (max-width: 768px) {
         #gameContainer {
           width: 100vw;
@@ -586,7 +539,87 @@
         }
       }
 
-      /* 【修正問題3】特小螢幕優化 */
+      /* 【修正問題3】手機橫向專用設計 */
+      @media (max-height: 500px) and (orientation: landscape) {
+        #gameContainer {
+          height: 100vh;
+          overflow-y: auto;
+        }
+
+        #header {
+          font-size: 16px;
+          padding: 8px;
+        }
+
+        #mainArea {
+          padding: 10px;
+          flex-direction: row; /* 橫向排列 */
+          justify-content: center;
+          align-items: center;
+        }
+
+        #cardDisplay {
+          width: 200px;
+          height: 250px;
+          margin-right: 20px;
+        }
+
+        #cardForeground svg {
+          width: 100px;
+          height: 100px;
+        }
+
+        #sortingBoxes {
+          flex-direction: column; /* 垂直排列 */
+          gap: 15px;
+          margin-top: 0;
+        }
+
+        .sorting-box {
+          width: 120px;
+          height: 80px;
+          flex-direction: row; /* 圖示和文字橫向 */
+        }
+
+        .sorting-box svg {
+          width: 40px;
+          height: 40px;
+          margin-bottom: 0;
+          margin-right: 10px;
+        }
+
+        .sorting-box .label {
+          font-size: 14px;
+        }
+
+        #visualCue {
+          top: 5px;
+          gap: 15px;
+          padding: 5px 10px;
+        }
+
+        .cue-item {
+          padding: 5px 10px;
+          font-size: 12px;
+        }
+
+        .cue-icon {
+          width: 25px;
+          height: 25px;
+        }
+
+        #feedbackMessage {
+          font-size: 20px;
+          bottom: 20px;
+        }
+
+        .instruction-box {
+          max-height: 60vh;
+          overflow-y: auto;
+        }
+      }
+
+      /* 特小螢幕 */
       @media (max-width: 480px) {
         #cardDisplay {
           width: 200px;
@@ -615,7 +648,6 @@
       <div id="header">DCCS認知彈性訓練遊戲</div>
 
       <div id="mainArea">
-        <!-- 首頁畫面 -->
         <div id="landingScreen" class="screen active">
           <div
             style="
@@ -667,13 +699,9 @@
               💾 資料下載說明：遊戲結束後可下載 CSV
               純文字檔案供研究分析，不含個人識別資訊
             </p>
-            <p>
-              📖 更多資訊請參閱 <a href="#" style="color: #667eea">使用說明</a>
-            </p>
           </div>
         </div>
 
-        <!-- 階段一說明 -->
         <div id="phase1Instruction" class="screen">
           <div class="instruction-box">
             <h3>📘 階段一：學習規則（背景顏色分類）</h3>
@@ -696,11 +724,20 @@
               </li>
               <li>總共10題，加油！</li>
             </ul>
+            <p
+              style="
+                color: #667eea;
+                font-size: 14px;
+                text-align: center;
+                margin-top: 15px;
+              "
+            >
+              💡 提示：按<strong>空白鍵</strong>也可以繼續
+            </p>
           </div>
           <button class="btn" onclick="game.startPhase1()">我準備好了！</button>
         </div>
 
-        <!-- 階段二說明 -->
         <div id="phase2Instruction" class="screen">
           <div class="instruction-box">
             <h3>📗 階段二：轉換規則（臉部特徵分類）</h3>
@@ -715,11 +752,20 @@
               <li>試著忘記上一個階段的規則，專注在新規則上！</li>
               <li>總共10題，你可以的！</li>
             </ul>
+            <p
+              style="
+                color: #667eea;
+                font-size: 14px;
+                text-align: center;
+                margin-top: 15px;
+              "
+            >
+              💡 提示：按<strong>空白鍵</strong>也可以繼續
+            </p>
           </div>
           <button class="btn" onclick="game.startPhase2()">我準備好了！</button>
         </div>
 
-        <!-- 階段三說明 -->
         <div id="phase3Instruction" class="screen">
           <div class="instruction-box">
             <h3>📕 階段三：混合轉換（隨機切換規則）</h3>
@@ -737,11 +783,20 @@
               <li>要隨時保持注意力，快速切換規則！</li>
               <li>總共16題，這是最後衝刺！</li>
             </ul>
+            <p
+              style="
+                color: #667eea;
+                font-size: 14px;
+                text-align: center;
+                margin-top: 15px;
+              "
+            >
+              💡 提示：按<strong>空白鍵</strong>也可以繼續
+            </p>
           </div>
           <button class="btn" onclick="game.startPhase3()">挑戰開始！</button>
         </div>
 
-        <!-- 遊戲進行畫面 -->
         <div id="gameScreen" class="screen">
           <div id="visualCue">
             <div id="colorCue" class="cue-item">
@@ -796,7 +851,6 @@
           </div>
         </div>
 
-        <!-- 結果畫面 -->
         <div id="resultsScreen" class="screen">
           <h2>🎉 恭喜完成訓練！</h2>
           <div class="stats-container" id="statsContainer"></div>
@@ -834,10 +888,10 @@
 
         svgAssets: {
           backgrounds: {
-            blue: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 375" width="100%" height="100%">
+            blue: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 375" width="300" height="375" preserveAspectRatio="none">
                             <rect width="300" height="375" rx="20" fill="#4A90E2"/>
                           </svg>`,
-            red: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 375" width="100%" height="100%">
+            red: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 375" width="300" height="375" preserveAspectRatio="none">
                            <rect width="300" height="375" rx="20" fill="#E74C3C"/>
                          </svg>`,
           },
@@ -879,7 +933,6 @@
           console.log("🎮 遊戲系統初始化...");
           document.addEventListener("keydown", (e) => this.handleKeyPress(e));
 
-          // 【修正問題3】為分類盒子添加觸控事件
           document.getElementById("leftBox").addEventListener("click", () => {
             const gameScreen = document.getElementById("gameScreen");
             if (gameScreen.classList.contains("active")) {
@@ -1011,12 +1064,32 @@
         },
 
         handleKeyPress(e) {
-          // 【修正問題1】在首頁時，空白鍵可以開始遊戲
+          // 【修正問題1】在首頁和階段說明頁都可以用空白鍵
           const landingScreen = document.getElementById("landingScreen");
-          if (landingScreen.classList.contains("active")) {
-            if (e.key === " " || e.key === "Spacebar") {
-              e.preventDefault();
+          const phase1Instruction =
+            document.getElementById("phase1Instruction");
+          const phase2Instruction =
+            document.getElementById("phase2Instruction");
+          const phase3Instruction =
+            document.getElementById("phase3Instruction");
+
+          if (e.key === " " || e.key === "Spacebar") {
+            e.preventDefault();
+
+            if (landingScreen.classList.contains("active")) {
               this.startGame();
+              return;
+            }
+            if (phase1Instruction.classList.contains("active")) {
+              this.startPhase1();
+              return;
+            }
+            if (phase2Instruction.classList.contains("active")) {
+              this.startPhase2();
+              return;
+            }
+            if (phase3Instruction.classList.contains("active")) {
+              this.startPhase3();
               return;
             }
           }
