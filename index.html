@@ -1,3 +1,8 @@
+<!-- 
+  [新手教學] HTML 文件結構
+  <!DOCTYPE html> 告訴瀏覽器這是一個標準的 HTML5 網頁。
+  <html> 標籤包裹了整個網頁內容。
+-->
 <!doctype html>
 <html lang="zh-TW">
   <head>
@@ -42,11 +47,19 @@
         box-sizing: border-box;
       }
 
+      /* 
+         [新手教學] Body 樣式與 Flexbox 排版
+         body 是網頁的可見範圍。
+         display: flex; 開啟彈性排版模式。
+         flex-direction: column; 讓內容由上往下垂直排列。
+         align-items: center; 讓內容水平置中。
+      */
       body {
         font-family: "Microsoft JhengHei", Arial, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         overflow: hidden;
@@ -434,6 +447,11 @@
         color: #333;
       }
 
+      /* 
+         === [新手教學] RWD 響應式設計 (Media Queries) === 
+         當螢幕寬度小於 768px (平板/手機) 時，執行這裡的 CSS。
+         我們會把按鈕變小、字體變小，讓手機版面更好看。
+      */
       /* 平板和手機直向 */
       @media (max-width: 768px) {
         #gameContainer {
@@ -847,11 +865,11 @@
           </div>
 
           <div id="sortingBoxes">
-            <div class="sorting-box left" id="leftBox">
+            <div class="sorting-box left" id="leftBox" role="button">
               <div id="leftBoxIcon"></div>
               <div class="label">按 F 鍵</div>
             </div>
-            <div class="sorting-box right" id="rightBox">
+            <div class="sorting-box right" id="rightBox" role="button">
               <div id="rightBoxIcon"></div>
               <div class="label">按 J 鍵</div>
             </div>
@@ -876,7 +894,75 @@
       </div>
     </div>
 
+    <div
+      style="
+        margin-top: 20px;
+        text-align: center;
+        z-index: 10;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      "
+    >
+      <a
+        href="dccs-data-visualizer.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          font-size: 15px;
+          font-weight: bold;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+          padding-bottom: 2px;
+          transition: opacity 0.2s;
+        "
+      >
+        📊 前往數據分析工具 (Data Visualizer)
+      </a>
+      <a
+        href="privacy.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          font-size: 15px;
+          font-weight: bold;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+          padding-bottom: 2px;
+          transition: opacity 0.2s;
+        "
+      >
+        🔒 隱私權政策 (Privacy Policy)
+      </a>
+      <a
+        href="https://github.com/patiencelee-39/CF-game/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          font-size: 15px;
+          font-weight: bold;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+          padding-bottom: 2px;
+          transition: opacity 0.2s;
+        "
+      >
+        🐙 開源專案 (GitHub)
+      </a>
+    </div>
+
     <script>
+      // === [新手教學] JavaScript 程式邏輯區 ===
+      // 我們把遊戲所有的「狀態」(變數) 和 「功能」(函式) 都包在一個大物件 `game` 裡面。
+      // 這種寫法叫做「物件導向」或「狀態機」模式。
+      // 好處是：變數不會散落在各地，程式碼整潔好管理。
       const game = {
         participantId: "",
         currentPhase: 0,
@@ -887,6 +973,7 @@
         startTime: 0,
         results: [],
 
+        // 1. 設定檔 (Configuration)
         cardConfig: {
           backgrounds: ["blue", "red"],
           foregrounds: ["eyes", "mouth"],
@@ -898,6 +985,9 @@
           3: { trials: 16, rule: "mixed" },
         },
 
+        // 2. SVG 資源庫
+        // 我們把圖片 (SVG) 直接變成字串存在變數裡。
+        // 優點：網頁載入快，不用等圖片下載。
         svgAssets: {
           backgrounds: {
             blue: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 375" width="300" height="375" preserveAspectRatio="none">
@@ -941,6 +1031,7 @@
           },
         },
 
+        // [功能] 初始化遊戲
         init() {
           console.log("🎮 遊戲系統初始化...");
           document.addEventListener("keydown", (e) => this.handleKeyPress(e));
@@ -962,6 +1053,7 @@
           console.log("✅ 遊戲系統初始化完成（含觸控支援）");
         },
 
+        // [功能] 開始遊戲
         startGame() {
           const inputId = document.getElementById("participantId").value.trim();
           this.participantId = inputId || "NoName";
@@ -1002,6 +1094,8 @@
           this.nextTrial();
         },
 
+        // [功能] 進入下一題
+        // 判斷是否還有題目，如果有就更新 UI 並顯示下一個刺激物。
         nextTrial() {
           if (this.currentTrial >= this.totalTrials) {
             this.finishPhase();
@@ -1025,6 +1119,7 @@
           );
         },
 
+        // [功能] 產生隨機卡片
         generateRandomCard() {
           const backgrounds = this.cardConfig.backgrounds;
           const foregrounds = this.cardConfig.foregrounds;
@@ -1075,6 +1170,8 @@
           document.getElementById("progressFill").style.width = `${progress}%`;
         },
 
+        // [功能] 處理玩家輸入 (按鍵)
+        // 當玩家按下空白鍵時呼叫此函式。
         handleKeyPress(e) {
           // 【修正問題1】在首頁和階段說明頁都可以用空白鍵
           const landingScreen = document.getElementById("landingScreen");
@@ -1119,6 +1216,8 @@
           }
         },
 
+        // [功能] 檢查答案是否正確
+        // 根據當前回合的規則，判斷使用者的反應 (按鍵或不按) 是否正確。
         checkAnswer(keyPressed) {
           const reactionTime = Date.now() - this.startTime;
           let correctKey;
@@ -1150,6 +1249,8 @@
           setTimeout(() => this.nextTrial(), 1000);
         },
 
+        // [功能] 記錄結果
+        // 將每一題的詳細數據存入 results 陣列，供最後匯出 CSV 使用。
         recordResult(data) {
           this.results.push(data);
           console.log(
@@ -1157,6 +1258,8 @@
           );
         },
 
+        // [功能] 顯示回饋動畫
+        // 答對顯示綠色，答錯顯示紅色。
         showFeedback(isCorrect) {
           const cardDisplay = document.getElementById("cardDisplay");
           const feedbackMsg = document.getElementById("feedbackMessage");
@@ -1225,6 +1328,8 @@
           return { totalTrials, correctCount, accuracy, avgReactionTime };
         },
 
+        // [功能] 匯出 CSV 資料
+        // 將 results 陣列轉換成 CSV 格式字串，並觸發瀏覽器下載。
         exportData() {
           console.log("💾 開始匯出資料...");
           const headers = [
@@ -1288,6 +1393,7 @@
           this.showScreen("landingScreen");
         },
 
+        // 切換顯示的畫面 (Screen Manager)
         showScreen(screenId) {
           const screens = document.querySelectorAll(".screen");
           screens.forEach((screen) => screen.classList.remove("active"));
@@ -1296,6 +1402,7 @@
         },
       };
 
+      // 程式進入點
       window.addEventListener("DOMContentLoaded", () => {
         game.init();
       });
